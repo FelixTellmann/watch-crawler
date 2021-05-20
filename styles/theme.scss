@@ -1,0 +1,41 @@
+:root {
+  --color-background: #fff;
+  --color-border: #e2e8f0;
+  --color-border-focus: #63b3ed;
+  --color-button-background: #e2e8f0;
+  --color-button-background-hover: #cbd5e0;
+  --color-button-text: #4a5568;
+  --color-grey-faded: #718096;
+  --color-input-background: #f7fafc;
+  --color-link-text: #3182ce;
+  --color-primary: #f65a8e;
+  --color-primary-20: rgba(246, 90, 142, 0.2);
+  --color-primary-hover: #d9367f;
+  --color-status-error: red;
+  --color-status-success: #6cba45;
+  --color-text: #1a202c;
+  --color-text-white: #fff;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+*:focus {
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+button  {
+  &:hover, &:focus, &:active {
+      outline: none;
+  }
+}

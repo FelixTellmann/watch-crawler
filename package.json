@@ -2,5 +2,60 @@
   "name": "watch-crawler",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "babel-plugin-inline-react-svg": "^2.0.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "clsx": "^1.1.1",
+    "next": "^10.2.2",
+    "next-compose-plugins": "^2.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0"
+  },
+  "scripts": {
+    "dev": "next --port 3000",
+    "build": "next build",
+    "build:start": "next build --profile && next start",
+    "start": "next start",
+    "export": "next build && next export",
+    "lint:fix": "eslint . --fix",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/jit": "^0.1.18",
+    "@types/chrome": "^0.0.141",
+    "@types/node": "^15.3.1",
+    "@types/react": "^17.0.6",
+    "@types/tailwindcss": "^2.0.3",
+    "autoprefixer": "^10.2.5",
+    "eslint-plugin-tailwindcss": "^1.7.0",
+    "eslint-plugin-typescript-sort-keys": "^1.6.0",
+    "gts": "^3.1.0",
+    "next-seo": "^4.24.0",
+    "node-sass": "5.0.0",
+    "postcss": "^8.2.15",
+    "styled-jsx-plugin-sass": "^1.0.0",
+    "tailwindcss": "^2.1.2",
+    "typescript": "^4.2.4",
+    "url-loader": "^4.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelixTellmann/watch-crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/FelixTellmann/watch-crawler/issues"
+  },
+  "homepage": "https://github.com/FelixTellmann/watch-crawler#readme",
+  "description": ""
 }
