@@ -3,9 +3,9 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import "styles/theme.scss";
 import "styles/tailwind.css";
-import "tailwindcss/tailwind.css";
+import "styles/theme.scss";
+// import "tailwindcss/tailwind.css";
 
 const title = "1M";
 const url = "https://1m-site.vercel.app";
@@ -14,8 +14,6 @@ const site_name = "1M Site";
 
 export const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();
-  const isAppRoute = /(^\/app\/?$|^\/app\/)/.test(router.asPath);
-  const isAuthRoute = /(^\/auth$|^\/auth\/)/.test(router.asPath);
 
   return (
     <>
@@ -70,9 +68,8 @@ export const App: FC<AppProps> = ({ pageProps, Component }) => {
           }}
         />
       </>
-
-        <Component {...pageProps} />
-      <style global jsx>{` 
+      <Component {...pageProps} />
+      <style global jsx>{`
         @font-face {
           font-family: "Inter";
           font-style: normal;
