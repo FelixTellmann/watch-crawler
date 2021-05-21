@@ -25,10 +25,14 @@ export const Index: FC = ({}) => {
     e.stopPropagation();
     setLoading(true);
     const url = urlInput.current.value;
-    if (!validator.isURL(url)) return;
+    if (!validator.isURL(url)) {
+      setLoading(false);
+      return;
+    }
     const site = await axios(`/api/load-url-data?url=${encodeURI(url)}`);
     const product = await axios(`/api/shopify-product?productId=${shopifyProductRef.current.value}`);
 
+    console.log(product);
     setSiteData(siteData => {
       site.data["currentImages"] = [];
       site.data["onShopify"] = false;
@@ -37,7 +41,7 @@ export const Index: FC = ({}) => {
           site.data["currentImages"].push({ src: src, id: id });
         });
       }
-      if (product?.data) {
+      if (product?.data?.id) {
         site.data["onShopify"] = true;
       }
       return site.data;
@@ -68,7 +72,7 @@ export const Index: FC = ({}) => {
           siteData["currentImages"].push({ src: src, id: id });
         });
       }
-      if (product?.data) {
+      if (product?.data?.id) {
         siteData["onShopify"] = true;
       }
       return siteData;
@@ -88,7 +92,7 @@ export const Index: FC = ({}) => {
           siteData["currentImages"].push({ src: src, id: id });
         });
       }
-      if (product?.data) {
+      if (product?.data?.id) {
         siteData["onShopify"] = true;
       }
       return siteData;
