@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "next --port 3000",
+    "dev": "next",
     "build": "next build",
     "build:start": "next build --profile && next start",
     "start": "next start",
