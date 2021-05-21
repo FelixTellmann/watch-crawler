@@ -102,7 +102,7 @@ export const Index: FC = ({}) => {
 
   return (
     <>
-      <div className="w-screen min-h-screen bg-gradient-to-b from-blueGray-300 to-lightBlue-200">
+      <div className="w-full min-h-screen bg-gradient-to-b from-blueGray-300 to-lightBlue-200">
         <div className="pt-24 pb-12 m-auto max-w-[800px]">
           <h2 className="mb-2 text-2xl font-bold">Enter the product id and watch link.</h2>
           <p className="mb-4 text-sm">
