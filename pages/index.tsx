@@ -113,8 +113,10 @@ export const Index: FC = ({}) => {
               </a>
             </Link>{" "}
             and{" "}
-            <Link href="https://www.houseofwatches.co.uk/" referrerPolicy="no-referrer" target="_blank">
-              <a className="hover:text-blue-500 underline ">www.houseofwatches.co.uk</a>
+            <Link href="https://www.houseofwatches.co.uk/">
+              <a className="hover:text-blue-500 underline " referrerPolicy="no-referrer" target="_blank">
+                www.houseofwatches.co.uk
+              </a>
             </Link>
           </p>
           <label className="flex items-center mb-3 ">
