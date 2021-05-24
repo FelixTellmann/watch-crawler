@@ -29,6 +29,7 @@ export const Index: FC = ({}) => {
       setLoading(false);
       return;
     }
+
     const site = await axios(`/api/load-url-data?url=${encodeURI(url)}`);
     const product = await axios(`/api/shopify-product?productId=${shopifyProductRef.current.value}`);
 
@@ -125,7 +126,7 @@ export const Index: FC = ({}) => {
               autoCapitalize="off"
               autoComplete="off"
               autoCorrect="off"
-              className="py-1 px-1 pl-2 leading-relaxed placeholder-opacity-60 bg-white rounded-md border border-gray-400 border-solid shadow-sm min-w-[200px] h-[42px] text-[12px] "
+              className="py-1 px-1 pl-2 min-w-[200px] h-[42px] text-[12px] leading-relaxed placeholder-opacity-60 bg-white rounded-md border border-gray-400 border-solid shadow-sm "
               defaultValue=""
               placeholder="Shopify Product Id"
               size={1}
@@ -144,7 +145,7 @@ export const Index: FC = ({}) => {
                 autoCapitalize="off"
                 autoComplete="off"
                 autoCorrect="off"
-                className="flex-1 leading-relaxed placeholder-opacity-60 h-[32px] text-[12px]"
+                className="flex-1 h-[32px] text-[12px] leading-relaxed placeholder-opacity-60"
                 defaultValue=""
                 placeholder="https://www.watch.co.uk/w1168g2.htm"
                 size={1}
@@ -152,7 +153,7 @@ export const Index: FC = ({}) => {
                 type="text"
               />
               <button
-                className="flex justify-center items-center py-1 px-4 text-white bg-pink-600 hover:opacity-80 min-w-[76px] h-[32px] rounded-[4px]"
+                className="flex justify-center items-center py-1 px-4 min-w-[76px] h-[32px] text-white bg-pink-600 rounded-[4px] hover:opacity-80"
                 type="submit"
               >
                 {loading ? <Loading style={{ fontSize: "22px" }} /> : <span>Go</span>}
@@ -189,7 +190,7 @@ export const Index: FC = ({}) => {
             </div>
             <div className="flex justify-center mx-auto mb-8 max-w-[800px]">
               <button
-                className="flex justify-center items-center py-1 px-4 text-white bg-pink-600 hover:opacity-80 min-w-[76px] h-[48px] rounded-[4px]"
+                className="flex justify-center items-center py-1 px-4 min-w-[76px] h-[48px] text-white bg-pink-600 rounded-[4px] hover:opacity-80"
                 type="button"
                 onClick={copyToClipboard}
               >
@@ -200,14 +201,14 @@ export const Index: FC = ({}) => {
         ) : null}
         {siteData.currentImages.length > 0 ? (
           <>
-            <h3 className="mx-auto mb-2 text-2xl font-semibold max-w-[780px]">Current Images on Shopify</h3>
-            <div className="grid grid-cols-6 items-end mx-auto mb-6 gap-[15px] max-w-[780px]">
+            <h3 className="mx-auto mb-2 max-w-[780px] text-2xl font-semibold">Current Images on Shopify</h3>
+            <div className="grid grid-cols-6 gap-[15px] items-end mx-auto mb-6 max-w-[780px]">
               {siteData.currentImages.map(({ src, id }) => (
                 <div key={src} className="relative">
-                  <img alt={src} className="flex h-auto max-h-full w-[137px]" src={src} />
+                  <img alt={src} className="flex w-[137px] h-auto max-h-full" src={src} />
                   <div className="flex absolute top-0 left-0 justify-end items-end w-full h-full opacity-0 hover:opacity-100">
                     <button
-                      className="flex justify-center items-center py-1 px-2 mx-auto mr-2 mb-2 text-white whitespace-nowrap bg-pink-600 hover:bg-pink-700 rounded-sm text-[12px]"
+                      className="flex justify-center items-center py-1 px-2 mx-auto mr-2 mb-2 text-[12px] text-white whitespace-nowrap bg-pink-600 hover:bg-pink-700 rounded-sm"
                       type="button"
                       onClick={() => removeFromShopify(id)}
                     >
@@ -221,19 +222,19 @@ export const Index: FC = ({}) => {
         ) : null}
         {siteData.images.length > 0 ? (
           <>
-            <h3 className="mx-auto mb-2 text-2xl font-semibold max-w-[780px]">Images found on site</h3>
+            <h3 className="mx-auto mb-2 max-w-[780px] text-2xl font-semibold">Images found on site</h3>
             <div
-              className="grid grid-cols-3 mx-auto gap-[15px] max-w-[780px] "
+              className="grid grid-cols-3 gap-[15px] mx-auto max-w-[780px] "
               style={{ gridTemplateRows: "repeat(auto-fit, minmax(250px, 250px))" }}
             >
-              {siteData.images.map(imgUrl => (
-                <div key={imgUrl} className="relative bg-white">
+              {siteData.images.map((imgUrl, i) => (
+                <div key={`${imgUrl}${i}`} className="relative bg-white">
                   <img className="mx-auto w-auto max-w-full h-auto max-h-full bg" src={imgUrl} />
 
                   {siteData.onShopify ? (
                     <div className="flex absolute top-0 left-0 justify-end items-end w-full h-full opacity-0 hover:opacity-100">
                       <button
-                        className="flex justify-center items-center py-1 px-4 mx-auto mr-4 mb-4 text-sm text-white bg-pink-600 hover:bg-pink-700 h-[32px] rounded-[4px]"
+                        className="flex justify-center items-center py-1 px-4 mx-auto mr-4 mb-4 h-[32px] text-sm text-white bg-pink-600 hover:bg-pink-700 rounded-[4px]"
                         type="button"
                         onClick={() => addImgToShopify(imgUrl)}
                       >
