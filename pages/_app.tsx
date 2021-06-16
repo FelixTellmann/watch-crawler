@@ -45,26 +45,26 @@ export const App: FC<AppProps> = ({ pageProps, Component }) => {
           canonical={`${url}${router.pathname}`}
           description={description}
           openGraph={{
-            type: "website",
-            locale: "en_IE",
-            url,
-            site_name,
-            title,
             description,
             images: [
               {
-                url: "https://www.tellmann.co.za/images/og-default.jpg",
                 alt: title,
-                width: 1200,
                 height: 630,
+                url: "https://www.tellmann.co.za/images/og-default.jpg",
+                width: 1200,
               },
             ],
+            locale: "en_IE",
+            site_name,
+            title,
+            type: "website",
+            url,
           }}
           title={title}
           twitter={{
+            cardType: "summary_large_image",
             handle: "@Tellmann",
             site: "@FelixTellmann",
-            cardType: "summary_large_image",
           }}
         />
       </>

@@ -13,29 +13,29 @@ type fetchProps = (
 
 export const fetchShopify: fetchProps = (api, method = "GET", body = {}) => {
   const config = {
+    data: method !== "GET" ? (typeof body === "string" ? body : JSON.stringify(body)) : undefined,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
     method,
     url: `https://${SHOPIFY_API_KEY}:${SHOPIFY_API_PASSWORD}@${SHOPIFY_API_STORE}.myshopify.com/admin/api/${SHOPIFY_API_VERSION}/${api.replace(
       /^\//,
       ""
     )}`,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    data: method !== "GET" ? (typeof body === "string" ? body : JSON.stringify(body)) : undefined,
   };
   return axios(config);
 };
 
 export const fetchShopifyGQL = (gql: string): AxiosPromise => {
   return axios({
-    method: "POST",
-    url: `https://${SHOPIFY_API_STORE}.myshopify.com/admin/api/${SHOPIFY_API_VERSION}/graphql.json`,
+    data: gql,
     headers: {
       Accept: "application/graphql",
       "Content-Type": "application/graphql",
       "X-Shopify-Access-Token": SHOPIFY_API_PASSWORD,
     },
-    data: gql,
+    method: "POST",
+    url: `https://${SHOPIFY_API_STORE}.myshopify.com/admin/api/${SHOPIFY_API_VERSION}/graphql.json`,
   });
 };
