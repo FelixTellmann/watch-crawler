@@ -7,10 +7,10 @@ import "styles/tailwind.css";
 import "styles/theme.scss";
 // import "tailwindcss/tailwind.css";
 
-const title = "1M";
-const url = "https://1m-site.vercel.app";
-const description = "1M Site | description here";
-const site_name = "1M Site";
+const title = "Watch Parser";
+const url = "http://localhost:3000/";
+const description = "Watch Parser";
+const site_name = "Watch Parser";
 
 export const App: FC<AppProps> = ({ pageProps, Component }) => {
   const router = useRouter();

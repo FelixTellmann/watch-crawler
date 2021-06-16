@@ -15,6 +15,7 @@ type SiteDataProps = {
 export const Index: FC = ({}) => {
   const urlInput = useRef<HTMLInputElement>(null);
   const shopifyProductRef = useRef<HTMLInputElement>(null);
+  const shopifySKURef = useRef<HTMLInputElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const [clipboardData, setClipboardData] = useState("");
   const [siteData, setSiteData] = useState<SiteDataProps>({ content: [], images: [], currentImages: [], onShopify: false });
@@ -101,6 +102,28 @@ export const Index: FC = ({}) => {
     setLoading(false);
   };
 
+  const openLinksGetProductId = async () => {
+    if (shopifySKURef.current.value !== "") {
+      const sku = shopifySKURef.current.value;
+      const urls = [
+        `https://www.watch.co.uk/watches/?search=${sku.replace(/D(.)$/, "E$1")}`,
+        `https://www.houseofwatches.co.uk/catalogsearch/result/?q=${sku.replace(/D(.)$/, "E$1")}`,
+        `https://freshpikk.com/catalogsearch/result/?q=${sku}`,
+        `https://www.flipkart.com/search?q=${sku}`,
+        `https://www.google.com/search?q=${sku}&sxsrf=ALeKk02S-JB8pPtMfCnOUldfDtXI6KadDg:1623764438397&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi5jLL04ZnxAhUChf0HHdmrCF4Q_AUoAXoECAEQAw&biw=1920&bih=920`,
+      ];
+
+      for (let i = 0; i < urls.length; i++) {
+        window.open(urls[i], "_blank");
+      }
+
+      const productId = (await axios(`/api/shopify-product-sku?sku=${sku}`)).data;
+      if (productId !== "") {
+        shopifyProductRef.current.value = productId;
+      }
+    }
+  };
+
   return (
     <>
       <div className="w-full min-h-screen bg-gradient-to-b from-blueGray-300 to-lightBlue-200">
@@ -122,23 +145,47 @@ export const Index: FC = ({}) => {
           </p>
           <label className="flex items-center mb-3 ">
             <input
-              ref={shopifyProductRef}
+              ref={shopifySKURef}
               autoCapitalize="off"
               autoComplete="off"
               autoCorrect="off"
               className="py-1 px-1 pl-2 min-w-[200px] h-[42px] text-[12px] leading-relaxed placeholder-opacity-60 bg-white rounded-md border border-gray-400 border-solid shadow-sm "
               defaultValue=""
-              placeholder="Shopify Product Id"
+              placeholder="Product SKU"
               size={1}
               spellCheck="false"
               type="text"
             />
-            <span className="flex ml-2 text-sm whitespace-nowrap ">
-              I.e.: https://broadwayjewellers-co-za.myshopify.com/admin/products/{" "}
-              <mark className="highlight">6773422260374</mark>
-            </span>
+            <span className="flex ml-2 text-sm whitespace-nowrap ">Enter Product SKU</span>
+            <button
+              className="flex justify-center items-center py-1 px-4 ml-auto min-w-[76px] h-[32px] text-white bg-pink-600 rounded-[4px] hover:opacity-80"
+              type="button"
+              onClick={openLinksGetProductId}
+            >
+              Open Links / get Product Id
+            </button>
           </label>
+
           <form onSubmit={handleSubmit}>
+            <label className="flex items-center mb-3 ">
+              <input
+                ref={shopifyProductRef}
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
+                className="py-1 px-1 pl-2 min-w-[200px] h-[42px] text-[12px] leading-relaxed placeholder-opacity-60 bg-white rounded-md border border-gray-400 border-solid shadow-sm "
+                defaultValue=""
+                placeholder="Shopify Product Id"
+                size={1}
+                spellCheck="false"
+                type="text"
+              />
+              <span className="flex ml-2 text-sm whitespace-nowrap ">
+                I.e.: https://broadwayjewellers-co-za.myshopify.com/admin/products/{" "}
+                <mark className="highlight">6773422260374</mark>
+              </span>
+            </label>
+
             <label className="flex py-1 px-1 pl-2 bg-white rounded-md border border-gray-400 border-solid shadow-sm">
               <input
                 ref={urlInput}

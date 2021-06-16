@@ -191,6 +191,69 @@ const parseWatchfinderCoZa = async (url: string): Promise<ReturnModel> => {
   return data;
 };
 
+const parseFlipkartCom = async (url: string): Promise<ReturnModel> => {
+  const [result] = await Promise.allSettled([axios(url || "")]);
+  if (result.status !== "fulfilled") return { content: [], images: [] };
+
+  const { document, location } = new JSDOM(result.value.data).window;
+  const { host } = location;
+  const data = { content: [], images: [] };
+
+  if (document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").length === 0) return { content: [], images: [] };
+
+  document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").forEach(node => {
+    const img = node?.style?.backgroundImage.replace(/url\(['"]?(.*?)\?.*?['"]?\)/gi, "$1").replace("128/128", "");
+    if (img) {
+      data.images.push(img);
+    }
+  });
+  return data;
+};
+
+const parseFreshpikkCom = async (url: string): Promise<ReturnModel> => {
+  const [result] = await Promise.allSettled([axios(url || "")]);
+  if (result.status !== "fulfilled") return { content: [], images: [] };
+
+  const { document, location } = new JSDOM(result.value.data).window;
+  const { host } = location;
+  const data = { content: [], images: [] };
+
+  // if (document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").length === 0) return { content: [], images: [] };
+
+  document.querySelectorAll('script[type="text/x-magento-init"]').forEach(node => {
+    const result = JSON.parse(node.text);
+
+    if ("[data-gallery-role=gallery-placeholder]" in result) {
+      if ("mage/gallery/gallery" in result["[data-gallery-role=gallery-placeholder]"]) {
+        result["[data-gallery-role=gallery-placeholder]"]["mage/gallery/gallery"].data.forEach(img => {
+          data.images.push(img.img);
+        });
+      }
+    }
+  });
+
+  return data;
+};
+
+const partseEthosWatchesCom = async (url: string): Promise<ReturnModel> => {
+  const [result] = await Promise.allSettled([axios(url || "")]);
+  if (result.status !== "fulfilled") return { content: [], images: [] };
+
+  const { document, location } = new JSDOM(result.value.data).window;
+  const { host } = location;
+  const data = { content: [], images: [] };
+
+  if (document.querySelectorAll("#carouselProductGallery .carousel-item a img").length === 0)
+    return { content: [], images: [] };
+
+  document.querySelectorAll("#carouselProductGallery .carousel-item a img").forEach(node => {
+    if (node?.src) {
+      data.images.push(node?.src);
+    }
+  });
+  return data;
+};
+
 export default async (req: NextApiRequest & { query: { url?: string } }, res: NextApiResponse) => {
   if (!validator.isURL(req.query?.url)) {
     console.log(req.query?.url || "");
@@ -242,6 +305,23 @@ export default async (req: NextApiRequest & { query: { url?: string } }, res: Ne
 
   if (/watchfinder\.co\.za/gi.test(req.query?.url)) {
     const data = await parseWatchfinderCoZa(req.query.url);
+    res.status(200).json(data);
+    return;
+  }
+
+  if (/flipkart\.com/gi.test(req.query?.url)) {
+    const data = await parseFlipkartCom(req.query.url);
+    res.status(200).json(data);
+    return;
+  }
+
+  if (/freshpikk\.com/gi.test(req.query?.url)) {
+    const data = await parseFreshpikkCom(req.query.url);
+    res.status(200).json(data);
+    return;
+  }
+  if (/ethoswatches\.com/gi.test(req.query?.url)) {
+    const data = await partseEthosWatchesCom(req.query.url);
     res.status(200).json(data);
     return;
   }

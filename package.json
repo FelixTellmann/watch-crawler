@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.18",
-    "@types/chrome": "^0.0.141",
+    "@types/chrome": "^0.0.145",
     "@types/node": "^15.3.1",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",

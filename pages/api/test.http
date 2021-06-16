@@ -1,0 +1,18 @@
+# SHOPIFY
+POST https://broadwayjewellers-co-za.myshopify.com/admin/api/2021-01/graphql.json
+Content-Type: application/graphql
+X-Shopify-Access-Token: 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
+
+{
+  productVariants(first: 1, query: "sku:A159WA-N1DF" ) {
+    edges {
+      node {
+        product {
+          id
+        }
+      }
+    }
+  }
+}
+
+###
