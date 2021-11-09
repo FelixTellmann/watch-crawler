@@ -1,9 +1,11 @@
 import axios from "axios";
 import Link from "next/link";
 import Loading from "public/icons/loading.svg";
-import { FC, useEffect, useRef, useState } from "react";
-import { IoCopy } from "react-icons/io5";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { IoCloudDownloadOutline, IoCopy } from "react-icons/io5";
 import validator from "validator";
+import multiDownload from "multi-download";
+import { saveAs } from "file-saver";
 
 type SiteDataProps = {
   content: { table: { td: string; th: string }[]; title: string }[];
@@ -123,6 +125,20 @@ export const Index: FC = ({}) => {
       }
     }
   };
+
+  const downloadImages = useCallback(async e => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(siteData.images);
+    /*    await multiDownload(siteData.images, {
+      rename: ({ url, index, urls }) =>
+        `${shopifySKURef.current.value}-${index}.${url.split(".")[url.split(".").length - 1]}`,
+    });*/
+
+    siteData.images.forEach((imgUrl, index) => {
+      saveAs(imgUrl, `${shopifySKURef.current.value}-${index}.${imgUrl.split(".")[imgUrl.split(".").length - 1]}`);
+    });
+  }, [siteData]);
 
   return (
     <>
@@ -269,7 +285,16 @@ export const Index: FC = ({}) => {
           : null}
         {siteData.images.length > 0
           ? <>
-              <h3 className="mx-auto mb-2 max-w-[780px] text-2xl font-semibold">Images found on site</h3>
+              <div className="flex justify-between mx-auto mb-2 max-w-[780px]">
+                <h3 className=" text-2xl font-semibold">Images found on site</h3>
+                <button
+                  className="flex justify-center items-center py-1 px-4 h-[32px] text-[20px] text-white bg-pink-600 rounded-[4px] hover:opacity-80"
+                  onClick={downloadImages}
+                >
+                  <IoCloudDownloadOutline />
+                </button>
+              </div>
+
               <div
                 className="grid grid-cols-3 gap-[15px] mx-auto max-w-[780px] "
                 style={{ gridTemplateRows: "repeat(auto-fit, minmax(250px, 250px))" }}
