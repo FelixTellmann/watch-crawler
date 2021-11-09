@@ -16,7 +16,7 @@ export default async (req: NextApiRequest & { query: { sku?: string } }, res: Ne
     edges {
       node {
         product {
-          id
+          id 
         }
       }
     }
@@ -31,5 +31,10 @@ export default async (req: NextApiRequest & { query: { sku?: string } }, res: Ne
 
   res
     .status(200)
-    .json(result.value.data.data.productVariants?.edges[0]?.node.product.id.replace("gid://shopify/Product/", "") || "");
+    .json(
+      result.value.data.data.productVariants?.edges[0]?.node.product.id.replace(
+        "gid://shopify/Product/",
+        ""
+      ) || ""
+    );
 };

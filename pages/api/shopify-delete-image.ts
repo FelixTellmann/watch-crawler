@@ -2,7 +2,10 @@ import { fetchShopify } from "lib/fetch";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest & { query: { imgId?: string; productId?: string } }, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest & { query: { imgId?: string; productId?: string } },
+  res: NextApiResponse
+) => {
   console.log(req.query?.productId || "");
 
   if (!req.query?.productId || !req.query?.imgId) {
@@ -17,7 +20,11 @@ export default async (req: NextApiRequest & { query: { imgId?: string; productId
   };
 
   const [result] = await Promise.allSettled([
-    fetchShopify(`products/${req.query?.productId}/images/${req.query?.imgId}.json`, "DELETE", body),
+    fetchShopify(
+      `products/${req.query?.productId}/images/${req.query?.imgId}.json`,
+      "DELETE",
+      body
+    ),
   ]);
 
   if (result.status !== "fulfilled" || !result.value?.data) {

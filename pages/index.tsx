@@ -20,7 +20,12 @@ export const Index: FC = ({}) => {
   const shopifySKURef = useRef<HTMLInputElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const [clipboardData, setClipboardData] = useState("");
-  const [siteData, setSiteData] = useState<SiteDataProps>({ content: [], currentImages: [], images: [], onShopify: false });
+  const [siteData, setSiteData] = useState<SiteDataProps>({
+    content: [],
+    currentImages: [],
+    images: [],
+    onShopify: false,
+  });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async e => {
@@ -34,7 +39,9 @@ export const Index: FC = ({}) => {
     }
 
     const site = await axios(`/api/load-url-data?url=${encodeURI(url)}`);
-    const product = await axios(`/api/shopify-product?productId=${shopifyProductRef.current.value}`);
+    const product = await axios(
+      `/api/shopify-product?productId=${shopifyProductRef.current.value}`
+    );
 
     console.log(product);
     setSiteData(siteData => {
@@ -66,8 +73,14 @@ export const Index: FC = ({}) => {
 
   const addImgToShopify = async (imgUrl: string) => {
     setLoading(true);
-    await axios(`/api/shopify-add-image?imgUrl=${encodeURI(imgUrl)}&productId=${shopifyProductRef.current.value}`);
-    const product = await axios(`/api/shopify-product?productId=${shopifyProductRef.current.value}`);
+    await axios(
+      `/api/shopify-add-image?imgUrl=${encodeURI(imgUrl)}&productId=${
+        shopifyProductRef.current.value
+      }`
+    );
+    const product = await axios(
+      `/api/shopify-product?productId=${shopifyProductRef.current.value}`
+    );
     setSiteData(siteData => {
       siteData["currentImages"] = [];
       siteData["onShopify"] = false;
@@ -86,8 +99,12 @@ export const Index: FC = ({}) => {
 
   const removeFromShopify = async (id: number) => {
     setLoading(true);
-    await axios(`/api/shopify-delete-image?&productId=${shopifyProductRef.current.value}&imgId=${id}`);
-    const product = await axios(`/api/shopify-product?productId=${shopifyProductRef.current.value}`);
+    await axios(
+      `/api/shopify-delete-image?&productId=${shopifyProductRef.current.value}&imgId=${id}`
+    );
+    const product = await axios(
+      `/api/shopify-product?productId=${shopifyProductRef.current.value}`
+    );
     setSiteData(siteData => {
       siteData["currentImages"] = [];
       siteData["onShopify"] = false;
@@ -136,7 +153,10 @@ export const Index: FC = ({}) => {
     });*/
 
     siteData.images.forEach((imgUrl, index) => {
-      saveAs(imgUrl, `${shopifySKURef.current.value}-${index}.${imgUrl.split(".")[imgUrl.split(".").length - 1]}`);
+      saveAs(
+        imgUrl,
+        `${shopifySKURef.current.value}-${index}.${imgUrl.split(".")[imgUrl.split(".").length - 1]}`
+      );
     });
   }, [siteData]);
 
@@ -148,13 +168,21 @@ export const Index: FC = ({}) => {
           <p className="mb-4 text-sm">
             Currently working with links from:{" "}
             <Link href="https://www.watch.co.uk/">
-              <a className="hover:text-blue-500 underline" referrerPolicy="no-referrer" target="_blank">
+              <a
+                className="hover:text-blue-500 underline"
+                referrerPolicy="no-referrer"
+                target="_blank"
+              >
                 www.watch.co.uk
               </a>
             </Link>{" "}
             and{" "}
             <Link href="https://www.houseofwatches.co.uk/">
-              <a className="hover:text-blue-500 underline " referrerPolicy="no-referrer" target="_blank">
+              <a
+                className="hover:text-blue-500 underline "
+                referrerPolicy="no-referrer"
+                target="_blank"
+              >
                 www.houseofwatches.co.uk
               </a>
             </Link>
@@ -264,7 +292,9 @@ export const Index: FC = ({}) => {
           : null}
         {siteData.currentImages.length > 0
           ? <>
-              <h3 className="mx-auto mb-2 max-w-[780px] text-2xl font-semibold">Current Images on Shopify</h3>
+              <h3 className="mx-auto mb-2 max-w-[780px] text-2xl font-semibold">
+                Current Images on Shopify
+              </h3>
               <div className="grid grid-cols-6 gap-[15px] items-end mx-auto mb-6 max-w-[780px]">
                 {siteData.currentImages.map(({ src, id }) => (
                   <div key={src} className="relative">
@@ -310,7 +340,9 @@ export const Index: FC = ({}) => {
                             type="button"
                             onClick={() => addImgToShopify(imgUrl)}
                           >
-                            {loading ? <Loading style={{ fontSize: "22px" }} /> : <span>Add to Shopify</span>}
+                            {loading
+                              ? <Loading style={{ fontSize: "22px" }} />
+                              : <span>Add to Shopify</span>}
                           </button>
                         </div>
                       : null}

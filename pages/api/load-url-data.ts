@@ -3,7 +3,10 @@ import { JSDOM } from "jsdom";
 import { NextApiRequest, NextApiResponse } from "next";
 import validator from "validator";
 
-type ReturnModel = { content: { table: { td: string; th: string }[]; title: string }[]; images: string[] };
+type ReturnModel = {
+  content: { table: { td: string; th: string }[]; title: string }[];
+  images: string[];
+};
 
 const parseWatchCoUk = async (url: string): Promise<ReturnModel> => {
   const [result] = await Promise.allSettled([axios(url || "")]);
@@ -13,7 +16,8 @@ const parseWatchCoUk = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".specs_specifications").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".specs_specifications").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".main-img a").forEach(node => {
     if (node?.href) {
@@ -35,7 +39,10 @@ const parseWatchCoUk = async (url: string): Promise<ReturnModel> => {
       const table = [];
       node.querySelectorAll("tr")?.forEach(row => {
         if (row.querySelector("th")?.textContent) {
-          table.push({ th: row.querySelector("th")?.textContent, td: row.querySelector("td")?.textContent });
+          table.push({
+            th: row.querySelector("th")?.textContent,
+            td: row.querySelector("td")?.textContent,
+          });
         }
       });
       data.content.push({ title, table });
@@ -65,20 +72,23 @@ const parseHouseofwatchesCoUk = async (url: string): Promise<ReturnModel> => {
     }
   });
 
-  document.querySelectorAll(".product-spec table tr th, .product-spec table tr td").forEach(node => {
-    if (node.localName === "th") {
-      data.content.push({ title: node.textContent, table: [] });
-    }
+  document
+    .querySelectorAll(".product-spec table tr th, .product-spec table tr td")
+    .forEach(node => {
+      if (node.localName === "th") {
+        data.content.push({ title: node.textContent, table: [] });
+      }
 
-    if (node.localName === "td" && /<strong>/gi.test(node.innerHTML)) {
-      data.content[data.content.length - 1].table.push({ th: node.textContent, td: "" });
-    }
+      if (node.localName === "td" && /<strong>/gi.test(node.innerHTML)) {
+        data.content[data.content.length - 1].table.push({ th: node.textContent, td: "" });
+      }
 
-    if (node.localName === "td" && !/<strong>/gi.test(node.innerHTML)) {
-      data.content[data.content.length - 1].table[data.content[data.content.length - 1].table.length - 1].td =
-        node.textContent;
-    }
-  });
+      if (node.localName === "td" && !/<strong>/gi.test(node.innerHTML)) {
+        data.content[data.content.length - 1].table[
+          data.content[data.content.length - 1].table.length - 1
+        ].td = node.textContent;
+      }
+    });
 
   return data;
 };
@@ -109,7 +119,8 @@ const parseAzzamwatchesCom = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".product-detail-image").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".product-detail-image").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".product-detail-image a.gallery-image").forEach(node => {
     if (node?.href) {
@@ -127,7 +138,8 @@ const parseBellalunaCoZa = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".product-img-box").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".product-img-box").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".product-img-box a.fancybox").forEach(node => {
     if (node?.href) {
@@ -145,7 +157,8 @@ const parseBrandfieldCom = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".product-image-gallery").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".product-image-gallery").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".product-image-gallery img").forEach(node => {
     if (node?.dataset?.src) {
@@ -163,7 +176,8 @@ const parseWatchesprimeCom = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".woocommerce-product-gallery").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".woocommerce-product-gallery").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".woocommerce-product-gallery a").forEach(node => {
     if (node?.href) {
@@ -181,7 +195,8 @@ const parseWatchfinderCoZa = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll(".product-img-column").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll(".product-img-column").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll(".product-img-column a").forEach(node => {
     if (node?.href) {
@@ -199,10 +214,13 @@ const parseFlipkartCom = async (url: string): Promise<ReturnModel> => {
   const { host } = location;
   const data = { content: [], images: [] };
 
-  if (document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").length === 0) return { content: [], images: [] };
+  if (document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").length === 0)
+    return { content: [], images: [] };
 
   document.querySelectorAll("._3GnUWp ._20Gt85 .q6DClP._2_B7hD").forEach(node => {
-    const img = node?.style?.backgroundImage.replace(/url\(['"]?(.*?)\?.*?['"]?\)/gi, "$1").replace("128/128", "");
+    const img = node?.style?.backgroundImage
+      .replace(/url\(['"]?(.*?)\?.*?['"]?\)/gi, "$1")
+      .replace("128/128", "");
     if (img) {
       data.images.push(img);
     }
@@ -225,9 +243,11 @@ const parseFreshpikkCom = async (url: string): Promise<ReturnModel> => {
 
     if ("[data-gallery-role=gallery-placeholder]" in result) {
       if ("mage/gallery/gallery" in result["[data-gallery-role=gallery-placeholder]"]) {
-        result["[data-gallery-role=gallery-placeholder]"]["mage/gallery/gallery"].data.forEach(img => {
-          data.images.push(img.img);
-        });
+        result["[data-gallery-role=gallery-placeholder]"]["mage/gallery/gallery"].data.forEach(
+          img => {
+            data.images.push(img.img);
+          }
+        );
       }
     }
   });

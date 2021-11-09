@@ -2,7 +2,10 @@ import { fetchShopify } from "lib/fetch";
 
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest & { query: { productId?: string } }, res: NextApiResponse) => {
+export default async (
+  req: NextApiRequest & { query: { productId?: string } },
+  res: NextApiResponse
+) => {
   console.log(req.query?.productId || "");
 
   if (!req.query?.productId) {
